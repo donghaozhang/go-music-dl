@@ -33,3 +33,6 @@ test_import.txt
 sync_and_pr.bat
 docker/
 tmp/
+
+# Local player state: credentials, logs, cached metadata and media previews
+/.local-run/

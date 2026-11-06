@@ -1,0 +1,40 @@
+go-music-dl 本地播放器（macOS）
+
+自己的仓库：https://github.com/donghaozhang/go-music-dl
+上游来源：https://github.com/guohuiyuan/go-music-dl
+本机安装位置：/Volumes/Elements2/go-music-dl
+
+构建与启动
+1. 安装 Go（版本要求见 go.mod）以及 Python 3。
+2. 在项目目录构建：
+   go build -trimpath -ldflags='-s -w' -o music-dl ./cmd/music-dl
+3. 双击「启动 go-music-dl.command」。
+4. 打开 http://127.0.0.1:3032/music/local_music_page
+5. 双击「停止 go-music-dl.command」停止本项目服务。
+无弹窗启动：python3 .local-run/launch.py start --no-open
+服务仅监听 127.0.0.1:3032。--host 为本 fork 添加的 Web 启动选项。
+
+本地音乐与歌词
+歌曲保存在 data/downloads，同名 .lrc 文件保存同步歌词；播放器也能读取内嵌歌词。
+歌曲、歌词、封面和账号设置均保存在本地，不提交 Git。
+以后下载 Suno 歌曲，优先用 https://usesuno.com/tools/downloader/，将音频与歌词保存到 Elements2，再导入播放器。使用官方付费/额度下载前另行确认。
+
+汽水音乐本地配置
+启动脚本会尝试通过 .local-run/configure-local.go 读取本机官方汽水客户端已有的登录状态，写入忽略的 data/settings.db，不打印凭据。
+此安装的官方客户端路径为 /Volumes/Elements2/Applications/汽水音乐.app；换机器或路径时需调整脚本中的路径。
+如果只播放本地文件，无需汽水登录。首次启动仍会尝试上述配置，失败后继续启动。
+.local-run/server.log 可能包含管理初始化信息，不能提交或公开分享。
+
+代码与运行记录
+.local-run/launch.py：后台启动、停止和健康检查。
+.local-run/configure-local.go：本机汽水客户端配置。
+.local-run/test-song.go、download-buran.go：既有示例歌曲下载流程。
+.local-run/repair-song-lyrics.go：既有示例歌曲的同步歌词补充流程。
+这些 Go 辅助脚本必须按单文件 go run 执行，不要把整个 .local-run 目录作为一个 Go 包构建。
+示例脚本会下载特定曲目或修改本地配置，不属于无副作用测试。
+.local-run 目录整体忽略，只有明确审查并已纳入版本控制的上述源代码保存到 Git。
+旧的详细安装记录保留在本机 .local-run/本地使用说明_安装记录_20261106.txt。
+
+Git 远程
+origin：自己的 fork，日常提交推送到这里。
+upstream：原作者仓库，供检查和同步更新。
