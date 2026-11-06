@@ -41,6 +41,9 @@
             <button type="button" class="btn-pill btn-pill-fav" onclick="openLocalMusicPage()">
                 <i class="fa-solid fa-music"></i> 本地音乐
             </button>
+            <button type="button" class="btn-pill btn-pill-primary" onclick="openSunoImport()">
+                <i class="fa-solid fa-download"></i> Suno 导入
+            </button>
             <button type="button" class="btn-pill btn-pill-category" onclick="goToPlaylistCategories()">
                 <i class="fa-solid fa-table-cells-large"></i> 歌单分类
             </button>
@@ -93,5 +96,19 @@
             </div>
         </div>
     </form>
+    <section id="suno-import-panel" hidden style="margin-top:20px;padding:18px;border:1px solid #b6e5d5;border-radius:16px;text-align:left;">
+        <h2 style="font-size:18px;margin:0 0 8px;">导入 Suno 歌曲</h2>
+        <p style="font-size:13px;line-height:1.6;">粘贴歌曲链接，音频和歌词会保存到当前音乐目录，并加入本地曲库。通过 UseSuno 解析公开可访问的歌曲，不使用 Suno 官方下载额度。</p>
+        <form id="suno-import-form">
+            <label for="suno-import-url">Suno 歌曲链接</label>
+            <input id="suno-import-url" type="url" required placeholder="https://suno.com/song/…" style="box-sizing:border-box;width:100%;margin:8px 0 12px;padding:12px;border:1px solid #cbd5e1;border-radius:10px;">
+            <button id="suno-import-submit" type="submit" class="btn-pill btn-pill-primary">下载歌曲和歌词</button>
+            <button id="suno-import-cancel" type="button" hidden>取消</button>
+        </form>
+        <p id="suno-import-status" role="status" aria-live="polite" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:14px;line-height:1.6;"></p>
+        <a id="suno-import-local" href="{{.Root}}/local_music_page" hidden>查看本地曲库 →</a>
+        <details id="suno-import-lyrics" hidden style="margin-top:12px;"><summary>查看歌词</summary><pre style="white-space:pre-wrap;max-height:300px;overflow:auto;font:inherit;"></pre></details>
+        <p style="font-size:12px;opacity:.75;">普通歌词会单独保存为 TXT；有真实时间轴时才保存为 LRC。请仅导入自己创作或获准保存的歌曲。</p>
+    </section>
 </div>
 {{end}}

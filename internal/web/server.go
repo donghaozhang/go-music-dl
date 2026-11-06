@@ -588,6 +588,7 @@ func StartWithOptions(port string, opts StartOptions) {
 	api := r.Group(RoutePrefix)
 
 	RegisterAIRoutes(api)
+	RegisterSunoImportRoutes(api)
 
 	api.GET("/healthz", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
@@ -601,6 +602,7 @@ func StartWithOptions(port string, opts StartOptions) {
 	api.GET("/style.css", func(c *gin.Context) { c.FileFromFS("templates/static/css/style.css", http.FS(templateFS)) })
 	api.GET("/videogen.css", func(c *gin.Context) { c.FileFromFS("templates/static/css/videogen.css", http.FS(templateFS)) })
 	api.GET("/videogen.js", func(c *gin.Context) { c.FileFromFS("templates/static/js/videogen.js", http.FS(templateFS)) })
+	api.GET("/suno-import.js", func(c *gin.Context) { c.FileFromFS("templates/static/js/suno-import.js", http.FS(templateFS)) })
 	api.GET("/app.js", func(c *gin.Context) { c.FileFromFS("templates/static/js/app.js", http.FS(templateFS)) })
 	vendorAssets, err := embeddedVendorFS()
 	if err != nil {

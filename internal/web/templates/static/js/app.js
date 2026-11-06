@@ -1516,6 +1516,11 @@ function bindSearchForm(root = document) {
   searchForm.onsubmit = async (event) => {
     event.preventDefault();
     if (searchForm.dataset.loading === "1") return;
+    const keyword = searchForm.querySelector("#search-keyword")?.value.trim() || "";
+    if (/^https:\/\/(?:www\.)?suno\.com\//i.test(keyword) && window.startSunoImport) {
+      await window.startSunoImport(keyword);
+      return;
+    }
 
     const submitButton = searchForm.querySelector(".search-btn");
     const submitIcon = submitButton?.querySelector("i");

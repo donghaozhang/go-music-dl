@@ -38,3 +38,15 @@ go-music-dl 本地播放器（macOS）
 Git 远程
 origin：自己的 fork，日常提交推送到这里。
 upstream：原作者仓库，供检查和同步更新。
+
+Suno 一键导入（2026-11-06）
+在播放器点击“Suno 导入”，粘贴 https://suno.com/song/… 或 /s/… 链接，点“下载歌曲和歌词”。也可以直接在原搜索框粘贴链接并搜索。
+使用当前设置的本地音乐目录（这台机器为 Elements2 下的 data/downloads）。完成后自动刷新本地曲库，不会自动打断正在播放的歌曲。
+音频转为 192 kbps MP3，保留标题、作者、可用封面与内嵌歌词，同时另存 TXT；来源有真实时间轴时才存 LRC，不凭空生成同步时间戳。页面提供“查看歌词”用于阅读普通文本歌词。
+相同歌曲 ID 重复导入会返回已有文件。历史手动导入可在本地 .suno-import-index.json 注册 ID 到文件名，不修改原歌曲和同步歌词。
+本功能依赖本机 ffmpeg、ffprobe；只允许本机同源网页发起写入。音频先下载到同卷隐藏临时目录，核对完整时长和解码后才进入曲库。
+UseSuno 当前并未提供稳定公开 SDK；这是对其现有匿名网页解析服务的兼容接入。歌曲链接会发给 usesuno.com，音频从页面实际提供的 suno.ai 公开媒体地址下载；如果只有公开视频可用，提取其中音轨转换 MP3。与网站的加密音频转换流程不完全相同，不保证与官方下载音质一致。
+没有复制网站的解密代码，没有读取 Suno 登录信息或自动使用官方下载额度。网站验证、额度限制、页面格式变化、无公开可下载媒体等情况会明确报错。仅支持单首 song/s 链接，不支持歌单、账号页和 Hook。
+data/usesuno-client.json 保存此本地客户端的匿名服务身份，并遵守服务限流，不上传 Git。data/ 下的音乐、歌词、封面、配置和测试记录仍不上传。
+普通检查：go test ./internal/web ./cmd/music-dl
+真实下载检查为 opt-in：TestSunoLiveImport；设置 MUSIC_DL_SUNO_TEST_URL、MUSIC_DL_SUNO_TEST_DIR（已存在的测试目录）、MUSIC_DL_SUNO_TEST_PROJECT（项目绝对路径）。测试会实际下载授权歌曲，仅在明确需要时运行。
